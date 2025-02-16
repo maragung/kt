@@ -66,7 +66,7 @@ export default function DualWebLoader() {
             {url && (
               <iframe
                 key={iframeKey + index}
-                src={url}
+                src={`/api/proxy?url=${encodeURIComponent(url)}`}
                 className="w-full h-full border-none overflow-auto"
                 title={`Loaded Page ${index + 1}`}
                 sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
