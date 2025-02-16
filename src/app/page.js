@@ -2,19 +2,19 @@
 
 import { useState } from 'react';
 
-export default function WebLoader() {
+export default function DualWebLoader() {
   const [url, setUrl] = useState('');
-  const [activeTab, setActiveTab] = useState(0);
-  const [iframeKeys, setIframeKeys] = useState([0, 1, 2, 3, 4]); // Keys for forcing reload
+  const [iframeKey, setIframeKey] = useState(0);
+  const [count, setCount] = useState(0);
 
   const handleGo = () => {
     if (url) {
-      setIframeKeys(prevKeys => prevKeys.map(key => key + 5)); // Force reload by changing keys
+      setIframeKey(prevKey => prevKey + 1);
     }
   };
 
-  const handleUrlChange = (e) => {
-    setUrl(e.target.value);
+  const handleSuccess = () => {
+    setCount(prev => prev + 1);
   };
 
   return (
@@ -26,41 +26,39 @@ export default function WebLoader() {
           className="flex-1 p-2 border rounded-md"
           placeholder="Enter URL"
           value={url}
-          onChange={handleUrlChange}
+          onChange={(e) => setUrl(e.target.value)}
         />
-        <button
-          className="px-4 py-2 bg-blue-500 text-white rounded-md"
-          onClick={handleGo}
-        >
+        <button className="px-4 py-2 bg-blue-500 text-white rounded-md" onClick={handleGo}>
           Go
         </button>
+        <button className="px-4 py-2 bg-green-500 text-white rounded-md" onClick={handleSuccess}>
+          +1
+        </button>
+        <span className="text-lg font-semibold">Count: {count}</span>
       </div>
 
-      {/* Tab Navigation */}
-      <div className="flex bg-gray-300 p-2 space-x-2">
-        {iframeKeys.map((key, index) => (
-          <button
-            key={index}
-            className={`px-4 py-2 ${activeTab === index ? 'bg-blue-500 text-white' : 'bg-white'} rounded-md`}
-            onClick={() => setActiveTab(index)}
-          >
-            Tab {index + 1}
-          </button>
-        ))}
-      </div>
-
-      {/* Iframe Section */}
-      <div className="flex-grow w-full h-full">
-        {url && iframeKeys.map((key, index) => (
-          activeTab === index && (
+      {/* Iframes Section */}
+      <div className="flex flex-grow overflow-auto" style={{ height: '90%' }}>
+        <div className="w-1/2 border-r border-gray-300">
+          {url && (
             <iframe
-              key={key}
+              key={iframeKey}
               src={url}
-              className="w-full h-full border-none"
-              title={`Loaded Page ${key}`}
+              className="w-full h-full border-none overflow-auto"
+              title="Left Loaded Page"
             ></iframe>
-          )
-        ))}
+          )}
+        </div>
+        <div className="w-1/2">
+          {url && (
+            <iframe
+              key={iframeKey + 1}
+              src={url}
+              className="w-full h-full border-none overflow-auto"
+              title="Right Loaded Page"
+            ></iframe>
+          )}
+        </div>
       </div>
     </div>
   );
