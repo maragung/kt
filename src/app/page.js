@@ -43,7 +43,7 @@ export default function WebLoader() {
           className="px-4 py-2 bg-green-500 text-white rounded-md"
           onClick={handleSuccess}
         >
-          +Success
+          +1
         </button>
         <span className="text-lg font-semibold">Count: {count}</span>
       </div>
