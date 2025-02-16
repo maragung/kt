@@ -5,12 +5,11 @@ import { useState } from 'react';
 export default function DualWebLoader() {
   const [url, setUrl] = useState('');
   const [numIframes, setNumIframes] = useState(2);
-  const [iframeKey, setIframeKey] = useState(0);
   const [count, setCount] = useState(0);
 
   const handleGo = () => {
     if (url) {
-      setIframeKey(prevKey => prevKey + 1);
+      window.open(url, "_blank");
     }
   };
 
@@ -57,23 +56,6 @@ export default function DualWebLoader() {
         <button className="px-4 py-2 bg-yellow-500 text-white rounded-md">
           Count: {count}
         </button>
-      </div>
-
-      {/* Iframes Section */}
-      <div className="flex flex-col sm:flex-row flex-grow overflow-y-auto sm:overflow-hidden">
-        {Array.from({ length: numIframes }).map((_, index) => (
-          <div key={index} className="flex-1 border-b sm:border-r border-gray-300 h-screen sm:h-full">
-            {url && (
-              <iframe
-                key={iframeKey + index}
-                src={`/api/proxy?url=${encodeURIComponent(url)}`}
-                className="w-full h-full border-none overflow-auto"
-                title={`Loaded Page ${index + 1}`}
-                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-              ></iframe>
-            )}
-          </div>
-        ))}
       </div>
     </div>
   );
