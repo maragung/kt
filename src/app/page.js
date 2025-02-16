@@ -18,6 +18,16 @@ export default function DualWebLoader() {
     setCount(prev => prev + 1);
   };
 
+  const handleNumIframesChange = (e) => {
+    setNumIframes(Number(e.target.value));
+    setCount(0); // Reset count when number of iframes changes
+  };
+
+  const handleUrlChange = (e) => {
+    setUrl(e.target.value);
+    setCount(0); // Reset count when URL changes
+  };
+
   return (
     <div className="flex flex-col h-screen w-full">
       {/* Header Section */}
@@ -28,7 +38,7 @@ export default function DualWebLoader() {
           className="w-16 p-2 border rounded-md"
           min="1"
           value={numIframes}
-          onChange={(e) => setNumIframes(Number(e.target.value))}
+          onChange={handleNumIframesChange}
         />
         <label className="text-lg font-semibold">URL:</label>
         <input
@@ -36,7 +46,7 @@ export default function DualWebLoader() {
           className="flex-1 p-2 border rounded-md"
           placeholder="Enter URL"
           value={url}
-          onChange={(e) => setUrl(e.target.value)}
+          onChange={handleUrlChange}
         />
         <button className="px-4 py-2 bg-blue-500 text-white rounded-md" onClick={handleGo}>
           Go
@@ -50,9 +60,9 @@ export default function DualWebLoader() {
       </div>
 
       {/* Iframes Section */}
-      <div className="flex flex-col sm:flex-row flex-grow overflow-auto">
+      <div className="flex flex-col sm:flex-row flex-grow overflow-y-auto sm:overflow-hidden">
         {Array.from({ length: numIframes }).map((_, index) => (
-          <div key={index} className="flex-1 border-b sm:border-r border-gray-300">
+          <div key={index} className="flex-1 border-b sm:border-r border-gray-300 h-screen sm:h-full">
             {url && (
               <iframe
                 key={iframeKey + index}
