@@ -4,8 +4,8 @@ import { useState } from 'react';
 
 export default function WebLoader() {
   const [url, setUrl] = useState('');
+  const [activeTab, setActiveTab] = useState(0);
   const [iframeKeys, setIframeKeys] = useState([0, 1, 2, 3, 4]); // Keys for forcing reload
-  const [count, setCount] = useState(0);
 
   const handleGo = () => {
     if (url) {
@@ -13,13 +13,8 @@ export default function WebLoader() {
     }
   };
 
-  const handleSuccess = () => {
-    setCount(prev => prev + 1);
-  };
-
   const handleUrlChange = (e) => {
     setUrl(e.target.value);
-    setCount(0);
   };
 
   return (
@@ -39,24 +34,32 @@ export default function WebLoader() {
         >
           Go
         </button>
-        <button
-          className="px-4 py-2 bg-green-500 text-white rounded-md"
-          onClick={handleSuccess}
-        >
-          +Success
-        </button>
-        <span className="text-lg font-semibold">Count: {count}</span>
+      </div>
+
+      {/* Tab Navigation */}
+      <div className="flex bg-gray-300 p-2 space-x-2">
+        {iframeKeys.map((key, index) => (
+          <button
+            key={index}
+            className={`px-4 py-2 ${activeTab === index ? 'bg-blue-500 text-white' : 'bg-white'} rounded-md`}
+            onClick={() => setActiveTab(index)}
+          >
+            Tab {index + 1}
+          </button>
+        ))}
       </div>
 
       {/* Iframe Section */}
-      <div className="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 overflow-auto" style={{ height: '90%' }}>
-        {url && iframeKeys.map(key => (
-          <iframe
-            key={key}
-            src={url}
-            className="w-full h-full border rounded-md"
-            title={`Loaded Page ${key}`}
-          ></iframe>
+      <div className="flex-grow w-full h-full">
+        {url && iframeKeys.map((key, index) => (
+          activeTab === index && (
+            <iframe
+              key={key}
+              src={url}
+              className="w-full h-full border-none"
+              title={`Loaded Page ${key}`}
+            ></iframe>
+          )
         ))}
       </div>
     </div>
