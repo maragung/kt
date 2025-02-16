@@ -49,12 +49,12 @@ export default function WebLoader() {
       </div>
 
       {/* Iframe Section */}
-      <div className="flex-grow" style={{ height: '90%' }}>
+      <div className="flex-grow overflow-auto" style={{ height: '90%' }}>
         {url && (
           <iframe
             key={iframeKey}
             src={url}
-            className="w-full h-full border-none"
+            className="w-full h-full border-none overflow-auto"
             title="Loaded Page"
           ></iframe>
         )}
