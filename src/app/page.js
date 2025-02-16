@@ -4,14 +4,17 @@ import { useState } from 'react';
 
 export default function WebLoader() {
   const [url, setUrl] = useState('');
-  const [iframeUrl, setIframeUrl] = useState('');
+  const [iframeKey, setIframeKey] = useState(0);
   const [count, setCount] = useState(0);
 
   const handleGo = () => {
     if (url) {
-      setIframeUrl(url);
-      setCount(prev => prev + 1);
+      setIframeKey(prevKey => prevKey + 1); // Force iframe reload
     }
+  };
+
+  const handleSuccess = () => {
+    setCount(prev => prev + 1);
   };
 
   const handleUrlChange = (e) => {
@@ -36,14 +39,21 @@ export default function WebLoader() {
         >
           Go
         </button>
+        <button
+          className="px-4 py-2 bg-green-500 text-white rounded-md"
+          onClick={handleSuccess}
+        >
+          +Success
+        </button>
         <span className="text-lg font-semibold">Count: {count}</span>
       </div>
 
       {/* Iframe Section */}
       <div className="flex-grow" style={{ height: '90%' }}>
-        {iframeUrl && (
+        {url && (
           <iframe
-            src={iframeUrl}
+            key={iframeKey}
+            src={url}
             className="w-full h-full border-none"
             title="Loaded Page"
           ></iframe>
