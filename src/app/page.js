@@ -21,7 +21,7 @@ export default function DualWebLoader() {
   return (
     <div className="flex flex-col h-screen w-full">
       {/* Header Section */}
-      <div className="p-4 bg-gray-200 flex items-center gap-4 w-full" style={{ height: '10%' }}>
+      <div className="p-4 bg-gray-200 flex flex-wrap items-center gap-4 w-full">
         <label className="text-lg font-semibold">Iframes:</label>
         <input
           type="number"
@@ -50,9 +50,9 @@ export default function DualWebLoader() {
       </div>
 
       {/* Iframes Section */}
-      <div className="flex flex-grow overflow-auto" style={{ height: '90%' }}>
+      <div className="flex flex-col sm:flex-row flex-grow overflow-auto">
         {Array.from({ length: numIframes }).map((_, index) => (
-          <div key={index} className="flex-1 border-r border-gray-300">
+          <div key={index} className="flex-1 border-b sm:border-r border-gray-300">
             {url && (
               <iframe
                 key={iframeKey + index}
