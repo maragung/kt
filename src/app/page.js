@@ -69,6 +69,7 @@ export default function DualWebLoader() {
                 src={url}
                 className="w-full h-full border-none overflow-auto"
                 title={`Loaded Page ${index + 1}`}
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
               ></iframe>
             )}
           </div>
